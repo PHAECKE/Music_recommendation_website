@@ -1,18 +1,33 @@
-import requests
-from urllib.parse import urlencode
-import base64
+from flask import Flask, request
 import webbrowser
+from urllib.parse import urlencode
 
-client_id = "91285b760df243868fa63954b68b769d"
-client_secret = "351ac03829db4b2998758499462c45de"
-# code = "AQBXJZdE-V4Q6Lxi6KDPz6yddjMevooe1cf3msf66LBenn3UoN81l4KwCh3zx8_4BgdVDgGMjGfMwDopMTNjUh_VaGUneeLnum1RwTiVJ36IIJzT7GHp5D1bWmGi6SsPLXM6W2yFtWUUmN6B76YogUA9bkGP9Kh349ilxwBylorbfyJE0gGxqAwq2rdQ-uIQDErh"
+app = Flask(__name__)
 
-auth_headers = {
-    "client_id": client_id,
-    "response_type": "code",  # sends a request to retrieve an authorization code <temporary>
-    "redirect_uri": "http://localhost:5000/search",
-    "scope": "user-library-read"
-}
 
-webbrowser.open("https://accounts.spotify.com/authorize?" +
-                urlencode(auth_headers))
+@app.route("/search")
+def search():
+    code = request.args.get("code")
+    if code:
+        # You can perform further actions with the obtained code here
+        print("Authorization code:", code)
+    else:
+        print("Authorization code not found in redirect URL.")
+
+    return "Code received successfully."
+
+
+if __name__ == "__main__":
+    client_id = "91285b760df243868fa63954b68b769d"
+    auth_headers = {
+        "client_id": client_id,
+        "response_type": "code",
+        "redirect_uri": "http://localhost:5000/search",
+        "scope": "user-library-read"
+    }
+
+    auth_url = "https://accounts.spotify.com/authorize?" + \
+        urlencode(auth_headers)
+    webbrowser.open_new_tab(auth_url)
+
+    app.run(port=8000)
