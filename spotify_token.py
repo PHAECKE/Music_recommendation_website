@@ -3,8 +3,8 @@ from urllib.parse import urlencode
 import base64
 import webbrowser
 
-client_id = "91285b760df243868fa63954b68b769d"
-client_secret = "351ac03829db4b2998758499462c45de"
+client_id = "e2bfaf6e3a984beb857b404eb229901a"
+client_secret = "02125e4dfdbd49d693f977ab6e5c71ab"
 
 # encodes the client_id and the client_secret using base64 and then decode to utf-8
 encoded_credentials = base64.b64encode(client_id.encode() + b':' + client_secret.encode()).decode("utf-8")
